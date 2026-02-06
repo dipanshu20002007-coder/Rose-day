@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Rose Day</title>
+
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  text-align:center;
+  background: linear-gradient(135deg,#ffd6e8,#ffffff);
+}
+
+/* pages */
+.page{
+  display:none;
+  min-height:100vh;
+  padding:40px 20px;
+}
+
+button{
+  background:#ff69b4;
+  color:white;
+  border:none;
+  padding:18px 30px;
+  font-size:22px;
+  border-radius:14px;
+  margin-top:30px;
+}
+
+/* center helper */
+.center{
+  margin-top:18vh;
+}
+
+.cursive{
+  font-family:"Brush Script MT",cursive;
+}
+
+/* light heart rain */
+.rain{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+}
+
+.rain span{
+  position:absolute;
+  top:-30px;
+  animation:fall linear infinite;
+  font-size:22px;
+  opacity:.8;
+}
+
+@keyframes fall{
+  to{ transform:translateY(110vh); }
+}
+</style>
+
+<script>
+function show(id){
+  var pages=document.getElementsByClassName("page");
+  for(var i=0;i<pages.length;i++){
+    pages[i].style.display="none";
+  }
+  document.getElementById(id).style.display="block";
+}
+
+window.onload=function(){
+  show("p1");
+}
+</script>
+
+</head>
+
+<body>
+
+<!-- hearts -->
+<div class="rain">
+<span style="left:5%;animation-duration:7s;">💗</span>
+<span style="left:20%;animation-duration:9s;">💖</span>
+<span style="left:35%;animation-duration:8s;">💗</span>
+<span style="left:55%;animation-duration:10s;">💞</span>
+<span style="left:75%;animation-duration:7s;">💗</span>
+<span style="left:90%;animation-duration:9s;">💖</span>
+</div>
+
+<!-- PAGE 1 -->
+<div id="p1" class="page">
+<div class="center">
+<div class="cursive" style="font-size:90px;">Dear Ilma</div>
+<div style="font-size:50px;">
+Your boyfriend wants to give you something
+</div>
+<button onclick="show('p2')">Open</button>
+</div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="p2" class="page">
+<div class="center">
+<div style="font-size:48px;">
+This rose is only for you, my wife
+</div>
+<div style="font-size:110px;">🌹</div>
+<button onclick="show('p3')">Awwww, thank you</button>
+</div>
+</div>
+
+<!-- PAGE 3 -->
+<div id="p3" class="page">
+<div class="center">
+<div style="font-size:36px;">
+This rose is crossing all the distance from Lucknow to Dehradun
+from my heart to yours, my dear.
+</div>
+<div style="font-size:100px;">🌹</div>
+<button onclick="show('p4')">Accept the rose</button>
+</div>
+</div>
+
+<!-- PAGE 4 -->
+<div id="p4" class="page">
+<div class="center">
+<div style="font-size:42px;">
+Thank you for accepting it, dear.
+You are the rose of my life.
+</div>
+<div class="cursive" style="font-size:70px;">ummmmmahhhhh 💋</div>
+<button onclick="show('p5')">Thank you</button>
+</div>
+</div>
+
+<!-- PAGE 5 -->
+<div id="p5" class="page">
+<div class="center">
+<div style="font-size:60px;">Happy Rose Day, Ilma</div>
+<div style="font-size:42px;">I love you so much</div>
+<div class="cursive" style="font-size:28px;">
+Let’s celebrate the first day of our first Valentine
+</div>
+</div>
+</div>
+
+</body>
+</html>
