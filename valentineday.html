@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For Ilma 💖</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:sans-serif;
+  overflow:hidden;
+  transition:1.5s;
+  background:linear-gradient(45deg,#ff9ecf,#ffd6ec,#ffc2f0);
+}
+
+.card{
+  background:white;
+  padding:30px;
+  border-radius:25px;
+  text-align:center;
+  width:92%;
+  max-width:440px;
+  box-shadow:0 0 40px rgba(0,0,0,.2);
+  position:relative;
+  z-index:2;
+}
+
+.stack{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+}
+
+.title{font-size:72px;color:#ff2e88;}
+.sub{font-size:26px;color:#ff4da6;}
+
+button{
+  padding:14px 28px;
+  font-size:22px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  transition:.25s;
+}
+
+#yes{background:#ff4da6;color:white;}
+#no{background:#ffe6f2;color:#ff2e88;}
+
+.no-msg{
+  margin-top:10px;
+  font-size:22px;
+  color:#ff2e88;
+  font-weight:600;
+  font-family:sans-serif;
+  min-height:28px;
+}
+
+.back{
+  margin-top:18px;
+  background:#ffd6ec;
+  color:#ff2e88;
+  font-size:16px;
+}
+
+/* hearts */
+.heart{
+  position:fixed;
+  bottom:-30px;
+  animation:up 6s linear forwards;
+}
+@keyframes up{
+  to{transform:translateY(-120vh);opacity:0;}
+}
+
+/* envelope */
+.envelope{font-size:120px;animation:pop 1s ease;}
+@keyframes pop{from{scale:0;} to{scale:1;}}
+
+.letter{
+  background:white;
+  border-radius:18px;
+  padding:25px;
+  margin-top:20px;
+  box-shadow:0 0 25px rgba(0,0,0,.2);
+  animation:slide 1.2s ease;
+  font-size:26px;
+  color:#ff2e88;
+}
+@keyframes slide{
+  from{transform:translateY(60px);opacity:0;}
+  to{transform:translateY(0);opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="root"></div>
+
+<script>
+
+/* ---------- themes ---------- */
+const themes=[
+"linear-gradient(45deg,#ff9ecf,#ffd6ec,#ffc2f0)",
+"linear-gradient(45deg,#ff758c,#ff7eb3,#ffd86f)",
+"linear-gradient(45deg,#a18cd1,#fbc2eb,#ff9a9e)",
+"linear-gradient(45deg,#ffb7d5,#c6f1ff,#ffe29f)"
+];
+setInterval(()=>{
+ document.body.style.background=
+ themes[Math.floor(Math.random()*themes.length)];
+},2000);
+
+/* ---------- hearts ---------- */
+function heart(){
+ let h=document.createElement("div");
+ h.className="heart";
+ const icons=["💗","❤️","💞","🌸"];
+ h.innerHTML=icons[Math.floor(Math.random()*icons.length)];
+ h.style.left=Math.random()*100+"vw";
+ h.style.fontSize=(26+Math.random()*40)+"px";
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),6000);
+}
+setInterval(heart,300);
+
+/* ---------- logic ---------- */
+
+let yesScale = 1;
+let noClickCount = 0;
+
+const noMsgs = [
+ "soch lo baccha",
+ "plzzz yrr",
+ "aree dobara socho",
+ "ban jaao na",
+ "ban jaao meri rani",
+ "ban jaao valentine jaan",
+ "plzzz ban jaao betu",
+ "plzzz jaaneman"
+];
+
+function overlap(a,b){
+ return !(
+   a.right < b.left ||
+   a.left > b.right ||
+   a.bottom < b.top ||
+   a.top > b.bottom
+ );
+}
+
+/* ---------- pages ---------- */
+
+function page1(){
+ root.innerHTML = `
+ <div class="stack">
+   <div style="font-size:60px">💗💗</div>
+   <div class="title">Ilma</div>
+   <div class="sub">Will you be my Valentine?</div>
+
+   <button id="yes">YES 💕</button>
+   <button id="no">NO 🙈</button>
+
+   <div id="noText" class="no-msg"></div>
+ </div>
+ `;
+
+ const yes = document.getElementById("yes");
+ const no = document.getElementById("no");
+ const txt = document.getElementById("noText");
+
+ no.onclick = ()=>{
+
+   // rotate text
+   txt.innerText = noMsgs[ noClickCount % noMsgs.length ];
+   noClickCount++;
+
+   // grow yes 1.2x
+   yesScale *= 1.2;
+   yes.style.transform = `scale(${yesScale})`;
+
+   // teleport but avoid yes + text
+   let tries=0;
+   let noRect, yesRect, txtRect;
+
+   do{
+     no.style.position="absolute";
+     no.style.left = (10 + Math.random()*70) + "%";
+     no.style.top  = (25 + Math.random()*55) + "%";
+
+     noRect = no.getBoundingClientRect();
+     yesRect = yes.getBoundingClientRect();
+     txtRect = txt.getBoundingClientRect();
+     tries++;
+   }
+   while(tries<25 && (overlap(noRect,yesRect) || overlap(noRect,txtRect)));
+ };
+
+ yes.onclick = page2;
+}
+
+function page2(){
+ root.innerHTML = `
+ <div class="stack">
+ <div style="font-size:70px">💖💖</div>
+ <div class="title">Thank You</div>
+ <div class="sub">for being my Valentine</div>
+ <div style="font-family:cursive;font-size:38px;color:#ff2e88">
+ Happy Valentine's Day
+ </div>
+ <button onclick="page3()" style="font-size:32px;background:#ff4da6;color:white">
+ THANK YOU
+ </button>
+ <button class="back" onclick="page1()">⬅ Back</button>
+ </div>
+ `;
+}
+
+function page3(){
+ root.innerHTML = `
+ <div class="stack">
+ <div style="font-size:72px;color:#ff2e88">Welcome</div>
+ <div style="font-size:64px;color:#ff4da6">My Dear</div>
+ <div style="font-size:46px;font-family:cursive;color:#ff2e88">
+ I like you so much
+ </div>
+ <button onclick="page4()" style="font-size:28px;background:#ff4da6;color:white">
+ Open Letter 💌
+ </button>
+ <button class="back" onclick="page2()">⬅ Back</button>
+ </div>
+ `;
+}
+
+function page4(){
+ root.innerHTML = `
+ <div class="stack">
+ <div class="envelope">💌</div>
+ <div class="letter">
+ Thank you for coming in my life 💗
+ </div>
+ <button class="back" onclick="page3()">⬅ Back</button>
+ </div>
+ `;
+}
+
+page1();
+
+</script>
+
+</body>
+</html>
